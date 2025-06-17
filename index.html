@@ -4,187 +4,150 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>For Mariyam ❤️</title>
+  <title>For Mariyam — A Journey ❤️</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg-light: #fff0f5;
-      --text-light: #4b2e2e;
-      --card-light: #ffffff;
-
-      --bg-dark: #1e1e2f;
-      --text-dark: #f8e1f4;
-      --card-dark: #2e2e3e;
-    }
-
     body {
-      font-family: 'Segoe UI', sans-serif;
-      padding: 20px;
+      font-family: 'Poppins', sans-serif;
       margin: 0;
-      background-color: var(--bg-light);
-      color: var(--text-light);
+      padding: 0;
+      background: linear-gradient(135deg, #ffe4e1, #ffc0cb);
       transition: all 0.4s ease;
     }
-
     body.dark {
-      background-color: var(--bg-dark);
-      color: var(--text-dark);
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      color: #f0e6f6;
     }
-
-    h1 {
-      color: #c71585;
+    .centered {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
       text-align: center;
-    }
-
-    .question {
-      margin: 30px auto;
+      flex-direction: column;
       padding: 20px;
-      background-color: var(--card-light);
-      border-radius: 20px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      max-width: 600px;
     }
-
-    body.dark .question {
-      background-color: var(--card-dark);
-    }
-
     button {
-      margin: 10px;
-      padding: 12px 20px;
-      font-size: 16px;
-      border: none;
-      border-radius: 12px;
-      background-color: #ff69b4;
+      background: #ff69b4;
       color: white;
-      transition: transform 0.2s ease;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-size: 18px;
+      margin: 10px;
       cursor: pointer;
+      transition: all 0.3s ease;
     }
-
     button:hover {
+      background: #d14d92;
       transform: scale(1.05);
-      background-color: #db4c94;
     }
-
-    #controls {
+    .questionBox {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(8px);
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+    body.dark .questionBox {
+      background: rgba(40, 40, 70, 0.7);
+    }
+    .theme-toggle {
       position: fixed;
       top: 20px;
       right: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    #themeToggle, #muteToggle {
       background: transparent;
-      border: 2px solid #c71585;
-      color: #c71585;
-      border-radius: 8px;
-      padding: 6px 12px;
-    }
-
-    form {
-      display: none;
+      border: 2px solid #fff;
+      padding: 8px;
+      border-radius: 10px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <h1>For Mariyam ❤️</h1>
-
-  <div id="controls">
-    <button id="themeToggle">🌓 Theme</button>
-    <button id="muteToggle">🔊 Sound</button>
+  <div class="centered" id="startScreen">
+    <h1>Hi Mariyam 🌸</h1>
+    <p>This is not just a game — it’s a journey of feelings.</p>
+    <button onclick="startGame()">Start</button>
   </div>
 
-  <div id="gameContainer"></div>
+  <div id="gameContainer" style="display:none;"></div>
+  <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
 
-  <audio id="clickSound" src="https://www.soundjay.com/buttons/sounds/button-09.mp3" preload="auto"></audio>
-  <audio id="bgMusic" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c204389ca9.mp3?filename=romantic-piano-ambient-110090.mp3" loop autoplay></audio>
+  <audio id="clickSound" src="https://www.soundjay.com/buttons/sounds/button-16.mp3"></audio>
+  <audio id="bgMusic" src="https://cdn.pixabay.com/audio/2022/12/02/audio_d7679aa9d4.mp3" loop preload="auto"></audio>
 
-  <form id="answerForm" action="https://formsubmit.co/el/giroyi" method="POST">
-  </form>
+  <form id="answerForm" action="https://formsubmit.co/ebhonuayemarvellous123@gmail.com" method="POST" style="display:none;"></form>
 
   <script>
-    const section1 = [
-      { q: "Do you still think about us?", o: ["Sometimes", "A lot", "Not really"] },
-      { q: "Did you ever think we’d reconnect?", o: ["No", "Yes", "Maybe"] },
-      { q: "Do you believe people can change?", o: ["Yes", "No", "With time"] },
-      { q: "Was our time together real to you?", o: ["Very real", "Not sure", "Just a phase"] },
-      { q: "If I gave up on you, would you care?", o: ["Yes", "No", "Don’t know"] },
-      { q: "What was your favorite memory of us?", o: ["Laughing", "Deep talks", "Holding hands"] },
-      { q: "What’s your honest feeling now?", o: ["Confused", "Hopeful", "Still love"] },
-      { q: "Do you think we deserve a second chance?", o: ["Yes", "No", "Not yet"] },
-      { q: "What scares you most about trying again?", o: ["Getting hurt", "Losing freedom", "Nothing"] },
-      { q: "Would you be honest if you had no fear?", o: ["Yes", "Maybe", "No"] },
-      { q: "Who do you talk to about us?", o: ["No one", "My friend", "I keep it in"] },
-      { q: "Would you go on one last date with me?", o: ["Yes", "No", "Maybe"] },
-      { q: "What would you say if I asked again?", o: ["I’d say yes", "Still thinking", "Please wait"] },
-      { q: "How close are you to deciding?", o: ["Almost there", "Still lost", "No idea"] },
-      { q: "What do you want from me right now?", o: ["Patience", "Space", "Love"] }
+    const questions = [
+      { q: "Do you believe everything happens for a reason?", o: ["Yes", "Sometimes", "Not really"] },
+      { q: "How often do you think of us?", o: ["Often", "Rarely", "Never"] },
+      { q: "What scares you most about love?", o: ["Losing it", "Not being enough", "Not sure"] },
+      { q: "Your zodiac sign?", o: ["Aries", "Taurus", "Gemini", "Cancer", "Other"] },
+      { q: "Are you more heart or head?", o: ["Heart", "Head", "Both"] },
+      { q: "What’s your love language?", o: ["Words", "Acts", "Gifts", "Time", "Touch"] },
+      { q: "Do you believe we met for a reason?", o: ["Yes", "Maybe", "No"] },
+      { q: "What does a perfect partner mean to you?", o: ["Kind soul", "Security", "Fun & Vibes"] },
+      { q: "How healed are you from the past?", o: ["Fully", "Almost", "Still healing"] },
+      { q: "What’s your ideal relationship energy?", o: ["Soft & Deep", "Crazy & Loyal", "Safe & Calm"] },
+      { q: "Would you go on one special date with me again?", o: ["Yes", "No", "Maybe later"] },
+      { q: "Do you want to be loved again?", o: ["Yes", "Scared to", "Not sure"] },
+      { q: "If this was fate, would you believe it?", o: ["Yes", "Maybe", "No"] }
     ];
 
-    const section2 = [
-      { q: "What’s your zodiac sign?", o: ["Aries", "Leo", "Virgo", "Pisces", "Other"] },
-      { q: "What’s your love language?", o: ["Words", "Touch", "Gifts", "Quality time", "Acts of service"] },
-      { q: "Are you more of a morning or night person?", o: ["Morning", "Night", "Depends"] },
-      { q: "Do you believe in soulmates?", o: ["Yes", "No", "Unsure"] },
-      { q: "What kind of affection do you value most?", o: ["Small gestures", "Deep talks", "Physical touch"] },
-      { q: "Are you introverted or extroverted?", o: ["Introverted", "Extroverted", "Ambivert"] },
-      { q: "Do you like surprises?", o: ["Yes", "No", "Sometimes"] },
-      { q: "What's your idea of a perfect date?", o: ["Candlelight dinner", "Adventure", "Movie night", "Chill and talk"] },
-      { q: "Do you believe in second chances?", o: ["Yes", "No", "Depends"] },
-      { q: "Are you more heart or head driven?", o: ["Heart", "Head", "Mix of both"] }
-    ];
-
-    const allQuestions = [...section1, ...section2];
     let current = 0;
-    const container = document.getElementById("gameContainer");
-    const clickSound = document.getElementById("clickSound");
-    const bgMusic = document.getElementById("bgMusic");
-    const muteBtn = document.getElementById("muteToggle");
-    const themeBtn = document.getElementById("themeToggle");
-    const answerForm = document.getElementById("answerForm");
+    let score = 0;
+    const gameContainer = document.getElementById("gameContainer");
+    const form = document.getElementById("answerForm");
+
+    function startGame() {
+      document.getElementById("startScreen").style.display = "none";
+      gameContainer.style.display = "block";
+      document.getElementById("bgMusic").play();
+      renderQuestion();
+    }
 
     function renderQuestion() {
-      if (current >= allQuestions.length) {
-        container.innerHTML = "<h2>Thanks for being honest ❤️</h2><p>Now wait for what I’ll say next...</p>";
-        const submitBtn = document.createElement("button");
-        submitBtn.innerText = "Finish";
-        submitBtn.onclick = () => answerForm.submit();
-        container.appendChild(submitBtn);
+      if (current >= questions.length) {
+        gameContainer.innerHTML = "<div class='centered'><h2>Thank you for being real with me 💌</h2><button onclick='submitForm()'>Finish</button></div>";
         return;
       }
 
-      const q = allQuestions[current];
-      container.innerHTML = `
-        <div class="question">
-          <h2>${q.q}</h2>
-          ${q.o.map(opt => `<button onclick="nextQuestion('${opt}')">${opt}</button>`).join("")}
-        </div>
-      `;
+      const q = questions[current];
+      let html = `<div class="questionBox"><h2>${q.q}</h2>`;
+      q.o.forEach(opt => {
+        html += `<button onclick="next('${opt}')">${opt}</button>`;
+      });
+      html += "</div>";
+      gameContainer.innerHTML = html;
     }
 
-    function nextQuestion(answer) {
-      clickSound.play();
-      const qLabel = `Question_${current + 1}`;
+    function next(answer) {
+      document.getElementById("clickSound").play();
       const input = document.createElement("input");
       input.type = "hidden";
-      input.name = qLabel;
+      input.name = `Q${current + 1}`;
       input.value = answer;
-      answerForm.appendChild(input);
+      form.appendChild(input);
       current++;
       renderQuestion();
     }
 
-    muteBtn.onclick = () => {
-      bgMusic.muted = !bgMusic.muted;
-      muteBtn.textContent = bgMusic.muted ? "🔇 Muted" : "🔊 Sound";
-    };
+    function submitForm() {
+      const vibeInput = document.createElement("input");
+      vibeInput.type = "hidden";
+      vibeInput.name = "Vibe_Score";
+      vibeInput.value = Math.floor(Math.random() * 100) + "%";
+      form.appendChild(vibeInput);
+      form.submit();
+    }
 
-    themeBtn.onclick = () => {
+    function toggleTheme() {
       document.body.classList.toggle("dark");
-    };
-
-    renderQuestion();
+    }
   </script>
 </body>
 </html>

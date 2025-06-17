@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Let's Talk Truth – From Marvellous</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    #container {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      max-width: 600px;
+      width: 90%;
+      text-align: center;
+    }
+    .question {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    .option-btn {
+      display: block;
+      background: #4a90e2;
+      color: white;
+      padding: 0.8rem;
+      margin: 0.5rem 0;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+    }
+    .hidden {
+      display: none;
+    }
+    #secret {
+      position: fixed;
+      bottom: 10px;
+      right: 15px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #ddd;
+    }
+    #resultsBox {
+      white-space: pre-wrap;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <div id="questionBox">
+      <h2>Hey Mariyam ❤️</h2>
+      <p>Answer a few honest questions from Marvellous.</p>
+      <button onclick="startGame()" class="option-btn">Start</button>
+    </div>
+    <div id="gameBox" class="hidden">
+      <div class="question" id="questionText"></div>
+      <div id="options"></div>
+    </div>
+    <div id="endBox" class="hidden">
+      <h3>Thanks for answering honestly 🙏</h3>
+      <p>Your honesty means a lot.</p>
+    </div>
+    <div id="resultsBox" class="hidden"></div>
+  </div>
+  <div id="secret" onclick="revealSecret()">♥️</div>
+
+  <script>
+    const questions = [
+      { q: "How do you feel about us reconnecting?", options: ["Hopeful", "Confused", "Indifferent"] },
+      { q: "Do you think about what we had?", options: ["Often", "Sometimes", "Rarely"] },
+      { q: "Would you ever consider giving us another chance?", options: ["Yes", "Maybe", "No"] },
+      { q: "What made you fall for me back then?", options: ["Your heart", "Your attention", "I don't remember"] },
+      { q: "Do you think I've changed?", options: ["Yes – in a good way", "No, still the same", "I'm not sure"] },
+      { q: "What scares you about trying again?", options: ["Getting hurt again", "It won’t work", "Nothing"] },
+      { q: "Are you seeing someone else now?", options: ["No", "Kind of", "Yes"] },
+      { q: "Do you believe we could grow stronger together?", options: ["Yes", "Maybe", "Not likely"] },
+      { q: "What do you miss most about us?", options: ["Our talks", "Our laughs", "Nothing"] },
+      { q: "What do you want right now?", options: ["Peace", "Love", "Space"] },
+      { q: "If I was hurting, would you care?", options: ["Definitely", "A little", "Probably not"] },
+      { q: "Do you trust me now?", options: ["More than before", "Same as before", "Less than before"] },
+      { q: "How ready are you for love again?", options: ["100%", "50%", "Not at all"] },
+      { q: "What does your heart say about me?", options: ["Still cares", "Still unsure", "Moved on"] },
+      { q: "Final question: If love was knocking again, would you open the door?", options: ["Yes", "Maybe", "No"] }
+    ];
+
+    let current = 0;
+    const answers = [];
+
+    function startGame() {
+      document.getElementById('questionBox').classList.add('hidden');
+      document.getElementById('gameBox').classList.remove('hidden');
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const q = questions[current];
+      document.getElementById('questionText').innerText = q.q;
+      const optionsDiv = document.getElementById('options');
+      optionsDiv.innerHTML = '';
+      q.options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.innerText = opt;
+        btn.onclick = () => selectOption(opt);
+        optionsDiv.appendChild(btn);
+      });
+    }
+
+    function selectOption(opt) {
+      answers.push({ question: questions[current].q, answer: opt });
+      current++;
+      if (current < questions.length) {
+        showQuestion();
+      } else {
+        endGame();
+      }
+    }
+
+    function endGame() {
+      document.getElementById('gameBox').classList.add('hidden');
+      document.getElementById('endBox').classList.remove('hidden');
+    }
+
+    function revealSecret() {
+      let result = "--- HER ANSWERS ---\n\n";
+      let score = 0;
+      answers.forEach((entry, i) => {
+        result += `${i+1}. ${entry.question}\n→ ${entry.answer}\n\n`;
+        if (entry.answer === 'Yes' || entry.answer === 'Definitely' || entry.answer.includes('care') || entry.answer.includes('laughs') || entry.answer.includes('Hopeful') || entry.answer.includes('100%')) {
+          score += 2;
+        } else if (entry.answer === 'Maybe' || entry.answer === 'Sometimes' || entry.answer === 'Kind of' || entry.answer === '50%') {
+          score += 1;
+        }
+      });
+
+      let evaluation = "";
+      if (score >= 22) evaluation = "She’s emotionally open and likely wants something real again.";
+      else if (score >= 15) evaluation = "She’s unsure but still has feelings worth exploring.";
+      else evaluation = "She’s emotionally distant right now. Give her time or let go.";
+
+      result += `\n--- EVALUATION ---\n${evaluation}`;
+      const box = document.getElementById('resultsBox');
+      box.classList.remove('hidden');
+      box.innerText = result;
+    }
+  </script>
+</body>
+</html>
